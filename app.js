@@ -27,8 +27,8 @@ app.get('/', (req, res)=>{
   res.send("welcome to mi API")
 })
 
-require('./app/routes/UserRoutes')(app, connection);
-require('./app/routes/PostsRoutes')(app, connection, __dirname);
+// require('./app/routes/UserRoutes')(app, connection);
+// require('./app/routes/PostsRoutes')(app, connection, __dirname);
 
 app.listen(PORT, ()=> console.log(`Server running on ${PORT}`)); 
 
