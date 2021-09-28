@@ -22,10 +22,9 @@ app.use(fileUpload());
 //     console.log("Database running");
 // })
 
+const home = require('./app/routes/HomeRoutes');
+app.use('/', home)
 
-app.get('/', (req, res)=>{
-  res.send("welcome to mi API")
-})
 
 // require('./app/routes/UserRoutes')(app, connection);
 // require('./app/routes/PostsRoutes')(app, connection, __dirname);
