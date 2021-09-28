@@ -21,6 +21,11 @@ connection.connect(error=>{
     console.log("Database running");
 })
 
+
+app.get('/', (req, res)=>{
+  res.send("welcome to mi API")
+})
+
 require('./app/routes/UserRoutes')(app, connection);
 require('./app/routes/PostsRoutes')(app, connection, __dirname);
 
