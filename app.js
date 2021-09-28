@@ -27,6 +27,6 @@ require('./app/routes/PostsRoutes')(app, connection, __dirname);
 app.listen(PORT, ()=> console.log(`Server running on ${PORT}`)); 
 
 
-
+module.exports = app;
 
 
