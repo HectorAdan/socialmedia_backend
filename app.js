@@ -10,17 +10,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/public', express.static('public'));
 app.use(fileUpload());
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'hector',
-  password: '1234qwer',
-  database: 'db_socialmedia'  
-})
+// const connection = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'hector',
+//   password: '1234qwer',
+//   database: 'db_socialmedia'  
+// })
 
-connection.connect(error=>{
-    if(error) throw error;
-    console.log("Database running");
-})
+// connection.connect(error=>{
+//     if(error) throw error;
+//     console.log("Database running");
+// })
 
 
 app.get('/', (req, res)=>{
