@@ -2,8 +2,8 @@ const express = require("express");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
-const PORT = process.env.PORT || 3001;
-
+// const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5050;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
