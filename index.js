@@ -22,11 +22,13 @@ connection.connect(error=>{
     console.log("Database running");
 })
 
+require('./app/routes/UserRoutes')(app, connection);
+require('./app/routes/PostsRoutes')(app, connection, __dirname);
+
 const home = require('./app/routes/HomeRoutes');
 app.use('/', home)
 
-require('./app/routes/UserRoutes')(app, connection);
-require('./app/routes/PostsRoutes')(app, connection, __dirname);
+
 
 app.listen(PORT, ()=> console.log(`Server running on ${PORT}`)); 
 
