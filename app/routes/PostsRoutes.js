@@ -116,7 +116,7 @@ module.exports = function(app, connection, dir_name){
             }else{
                 return res.status(400).send('No files were uploaded in the field');
             }
-            
+
         } else{
             const userData = {
                 "idUser": req.body.idUser,
@@ -124,7 +124,7 @@ module.exports = function(app, connection, dir_name){
                 "content": req.body.content,
                 "idStatus": 1,
                 "slug": slugify(req.body.title)
-            };
+            }; 
             
             connection.query(sql, userData, error=>{
                 if(error) {
