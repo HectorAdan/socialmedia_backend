@@ -61,7 +61,7 @@ module.exports = function(app, connection, dir_name){
     app.post('/api/post-create', (req, res)=>{
         const sql  = "INSERT INTO Posts SET ?";
 
-        if (req.body.media_url){
+        if (req.files){
             if (req.files || Object.keys(req.files).length !== 0) {
                 
                 let file = req.files.media_url;
