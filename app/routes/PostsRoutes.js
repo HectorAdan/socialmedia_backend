@@ -61,59 +61,89 @@ module.exports = function(app, connection, dir_name){
     app.post('/api/post-create', (req, res)=>{
         const sql  = "INSERT INTO Posts SET ?";
         
-        if (!req.files || Object.keys(req.files).length === 0) {
-            return res.status(400).send('No files were uploaded.');
-        }
+        if (req.files || Object.keys(req.files).length !== 0) {
+            // return res.status(400).send('No files were uploaded.');
+            let file = req.files.media_url;
+            let date = new Date();
+            let file_name = date.getFullYear()+"_"+ date.getMonth()+ "_"+date.getDate()+ date.getHours()+"_"+date.getMinutes()+"_"+date.getSeconds()+"_"+file.name;
+            
+            var fs = require('fs');
+            var dir = dir_name+'/public/user_'+req.body.idUser+'/posts';
 
-        let file = req.files.media_url;
-        let date = new Date();
-        let file_name = date.getFullYear()+"_"+ date.getMonth()+ "_"+date.getDate()+ date.getHours()+"_"+date.getMinutes()+"_"+date.getSeconds()+"_"+file.name;
-       
-        
-        var fs = require('fs');
-        var dir = dir_name+'/public/user_'+req.body.idUser+'/posts';
-
-        if (!fs.existsSync(dir)){
-            fs.mkdirSync(dir, { recursive: true });
-        }
-
-        let uploadPath = dir+ "/" + file_name;
-
-        file.mv(uploadPath, function(err) {
-            if (err){ return res.status(500).send(err);}
-            else{
-                const userData = {
-                    "idUser": req.body.idUser,
-                    "title": req.body.title,
-                    "content": req.body.content,
-                    "idStatus": 1,
-                    "media_url": '/public/user_'+req.body.idUser+'/posts/'+ file_name,
-                    "slug": slugify(req.body.title)
-                };
-                
-                connection.query(sql, userData, error=>{
-                    if(error) {
-                        const response = {
-                            ok: false,
-                            code: error.code,
-                            message: 
-                                error.code === "ER_DUP_ENTRY" 
-                                    ? 
-                                        error.sqlMessage
-                                    : 
-                                        "Error creating user"
-                        }
-                        res.send(response)
-                    }else{
-                        const response = {
-                            ok: true,
-                            message: "Post created"
-                        }
-                        res.send(response);
-                    }
-                })
+            if (!fs.existsSync(dir)){
+                fs.mkdirSync(dir, { recursive: true });
             }
-        });
+
+            let uploadPath = dir+ "/" + file_name;
+
+            file.mv(uploadPath, function(err) {
+                if (err){ return res.status(500).send(err);}
+                else{
+                    const userData = {
+                        "idUser": req.body.idUser,
+                        "title": req.body.title,
+                        "content": req.body.content,
+                        "idStatus": 1,
+                        "media_url": '/public/user_'+req.body.idUser+'/posts/'+ file_name,
+                        "slug": slugify(req.body.title)
+                    };
+                    
+                    connection.query(sql, userData, error=>{
+                        if(error) {
+                            const response = {
+                                ok: false,
+                                code: error.code,
+                                message: 
+                                    error.code === "ER_DUP_ENTRY" 
+                                        ? 
+                                            error.sqlMessage
+                                        : 
+                                            "Error creating user"
+                            }
+                            res.send(response)
+                        }else{
+                            const response = {
+                                ok: true,
+                                message: "Post created"
+                            }
+                            res.send(response);
+                        }
+                    })
+                }
+            });
+        
+        }else{
+            const userData = {
+                "idUser": req.body.idUser,
+                "title": req.body.title,
+                "content": req.body.content,
+                "idStatus": 1,
+                "slug": slugify(req.body.title)
+            };
+            
+            connection.query(sql, userData, error=>{
+                if(error) {
+                    const response = {
+                        ok: false,
+                        code: error.code,
+                        message: 
+                            error.code === "ER_DUP_ENTRY" 
+                                ? 
+                                    error.sqlMessage
+                                : 
+                                    "Error creating user"
+                    }
+                    res.send(response)
+                }else{
+                    const response = {
+                        ok: true,
+                        message: "Post created"
+                    }
+                    res.send(response);
+                }
+            })
+        }
+        
     })
 
     //update
