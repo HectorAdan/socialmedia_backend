@@ -149,8 +149,8 @@ module.exports = function(app, connection, dir_name){
      //delete
      app.delete('/api/post-delete/:id', (req, res)=>{
         const {id} = req.params;
-        const sql_find = `SELECT * FROM posts WHERE idPost = ${id}`;
-        const sql_delete = `DELETE FROM posts WHERE idPost = ${id}`;
+        const sql_find = `SELECT * FROM Posts WHERE idPost = ${id}`;
+        const sql_delete = `DELETE FROM Posts WHERE idPost = ${id}`;
         connection.query(sql_find, (error, result)=>{
             if(error) throw error;
             if(result.length > 0){
