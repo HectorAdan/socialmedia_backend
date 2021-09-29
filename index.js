@@ -10,24 +10,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/public', express.static('public'));
 app.use(fileUpload());
 
-// const connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'hector',
-//   password: '1234qwer',
-//   database: 'db_socialmedia'  
-// })
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'hector',
+  password: '1234qwer',
+  database: 'db_socialmedia'  
+})
 
-// connection.connect(error=>{
-//     if(error) throw error;
-//     console.log("Database running");
-// })
+connection.connect(error=>{
+    if(error) throw error;
+    console.log("Database running");
+})
 
 const home = require('./app/routes/HomeRoutes');
 app.use('/', home)
 
-
-// require('./app/routes/UserRoutes')(app, connection);
-// require('./app/routes/PostsRoutes')(app, connection, __dirname);
+require('./app/routes/UserRoutes')(app, connection);
+require('./app/routes/PostsRoutes')(app, connection, __dirname);
 
 app.listen(PORT, ()=> console.log(`Server running on ${PORT}`)); 
 
