@@ -32,8 +32,8 @@ connection.connect(error=>{
 require('./app/routes/UserRoutes')(app, connection);
 require('./app/routes/PostsRoutes')(app, connection, __dirname);
 
-const home = require('./app/routes/HomeRoutes');
-app.use('/', home)
+// const home = require('./app/routes/HomeRoutes');
+// app.use('/', home)
 
 
 app.listen(PORT, ()=> console.log(`Server running on ${PORT}`)); 
