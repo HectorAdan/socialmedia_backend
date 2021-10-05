@@ -19,11 +19,11 @@ module.exports = function(app, connection){
             }
             res.send(response)
         }else{
-            const check_user_exist  = `SELECT * FROM Users Where username = ${username} OR email = ${username} LIMIT 1`;
+            const check_user_exist  = `SELECT * FROM Users WHERE username = '${username}' OR email = '${username}' LIMIT 1`;
             connection.query(check_user_exist, (error, results) =>{
                 if(error) throw error;
                 if(results.length >0){
-                    const check_password  = `SELECT * FROM Users WHERE username = ${username} AND password = ${md5(password)} LIMIT 1`;
+                    const check_password  = `SELECT * FROM Users WHERE username = '${username}' AND password = '${md5(password)}' LIMIT 1`;
                     connection.query(check_password, (error, results) =>{
                         if(error) throw error;
                         if(results.length >0){
