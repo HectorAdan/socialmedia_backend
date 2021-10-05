@@ -15,7 +15,30 @@ module.exports = function(app, connection, dir_name){
 
      // get all posts
      app.get('/api/post-get-all', (req, res)=>{
-        const sql  = "SELECT Posts.*, Users.firstName FROM Posts, Users WHERE Posts.idUser = Users.idUser ORDER BY idPost DESC ";
+        const sql  = "SELECT Posts.*, Users.firstName FROM Posts, Users WHERE Posts.idUser = Users.idUser ORDER BY Posts.idPost DESC ";
+        connection.query(sql, (error, results) =>{
+            if(error) throw error;
+            if(results.length >0){
+                const response = {
+                    ok: true,
+                    message: results.length+ " posts found",
+                    posts: results
+                }
+                res.json(response);
+            }else{
+                const response = {
+                    ok: false,
+                    message: "No posts created"
+                }
+                res.send(response)
+            }
+        })
+    })
+
+    // get all posts by user
+    app.get('/api/post-get-all-by-user/:id', (req, res)=>{
+        const {id} = req.params;
+        const sql  = "SELECT Posts.*, Users.firstName FROM Posts, Users WHERE Posts.idUser = Users.idUser AND Users.idUser = ${id}  ORDER BY Posts.idPost DESC ";
         connection.query(sql, (error, results) =>{
             if(error) throw error;
             if(results.length >0){
