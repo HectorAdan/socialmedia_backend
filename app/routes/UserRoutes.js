@@ -1,7 +1,62 @@
 const md5 = require("md5");
 
 module.exports = function(app, connection){
-    // url
+
+    //login user
+    app.post('/api/user-login', (req, res)=>{
+    
+        const {username, password} = req.body;
+        if(!username){
+            const response = {
+                ok: false,
+                message: "username is required"
+            }
+            res.send(response)
+        }else if(!password){
+            const response = {
+                ok: false,
+                message: "password is required"
+            }
+            res.send(response)
+        }else{
+            const check_user_exist  = `SELECT * FROM Users Where username = ${username} OR email = ${username} LIMIT 1`;
+            connection.query(check_user_exist, (error, results) =>{
+                if(error) throw error;
+                if(results.length >0){
+                    const check_password  = `SELECT * FROM Users WHERE username = ${username} AND password = ${md5(password)} LIMIT 1`;
+                    connection.query(check_password, (error, results) =>{
+                        if(error) throw error;
+                        if(results.length >0){
+                            const response = {
+                                ok: true,
+                                message: "Users found",
+                                user: {
+                                    idUser: results[0].idUser,
+                                    username: results[0].username,
+                                    email: results[0].email
+                                }
+                            }
+                            res.json(response);
+                        }else{
+                            const response = {
+                                ok: false,
+                                message: "Invalid credentials"
+                            }
+                            res.send(response)
+                        }
+                    })
+                }else{
+                    const response = {
+                        ok: false,
+                        message: "No user registered with that username or email"
+                    }
+                    res.send(response)
+                }
+            })
+        }
+    })
+
+    // find all users
     app.get('/api/user-find-all', (req, res)=>{
         const sql  = "SELECT * FROM Users";
         connection.query(sql, (error, results) =>{
@@ -23,6 +78,7 @@ module.exports = function(app, connection){
         })
     })
 
+    // user find by id
     app.get('/api/user-find-by-id/:id', (req, res)=>{
         const {id} = req.params;
         const sql  = `SELECT * FROM Users WHERE idUser = ${id} LIMIT 1`;
