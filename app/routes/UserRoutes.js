@@ -22,7 +22,7 @@ module.exports = function(app, connection){
             connection.query(check_user_exist, (error, results) =>{
                 if(error) throw error;
                 if(results.length >0){
-                    const check_password  = `SELECT * FROM Users WHERE (username = '${username}' OR email = '${username}') AND password = '${md5(password)}' LIMIT 1`;
+                    const check_password  = `SELECT * FROM Users WHERE idUser =${results[0].idUser} AND password = '${md5(password)}' LIMIT 1`;
                     connection.query(check_password, (error, results) =>{
                         if(error) throw error;
                         if(results.length >0){
