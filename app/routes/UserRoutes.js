@@ -119,7 +119,7 @@ module.exports = function(app, connection){
                     message: 
                         error.code === "ER_DUP_ENTRY" 
                             ? 
-                                error.sqlMessage
+                                "User or email already exists"
                             : 
                                 "Error creating user"
                 }
