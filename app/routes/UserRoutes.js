@@ -57,7 +57,7 @@ module.exports = function(app, connection){
 
     // find all users
     app.get('/api/user-find-all', (req, res)=>{
-        const sql  = "SELECT * FROM Users";
+        const sql  = "SELECT username, email, firstName, lastName FROM Users";
         connection.query(sql, (error, results) =>{
             if(error) throw error;
             if(results.length >0){
@@ -80,7 +80,7 @@ module.exports = function(app, connection){
     // user find by id
     app.get('/api/user-find-by-id/:id', (req, res)=>{
         const {id} = req.params;
-        const sql  = `SELECT * FROM Users WHERE idUser = ${id} LIMIT 1`;
+        const sql  = `SELECT username, email, firstName, lastName FROM Users WHERE idUser = ${id} LIMIT 1`;
         connection.query(sql, (error, result) =>{
             if(error) throw error;
             if(result.length > 0){
