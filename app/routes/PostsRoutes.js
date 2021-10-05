@@ -51,7 +51,7 @@ module.exports = function(app, connection, dir_name){
             }else{
                 const response = {
                     ok: false,
-                    message: "No posts created"
+                    message: "No posts found"
                 }
                 res.send(response)
             }
