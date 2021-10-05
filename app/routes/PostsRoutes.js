@@ -15,7 +15,7 @@ module.exports = function(app, connection, dir_name){
 
      // get all posts
      app.get('/api/post-get-all', (req, res)=>{
-        const sql  = "SELECT Posts.*, Users.firstName, Users FROM Posts, Users ORDER BY idPost DESC ";
+        const sql  = "SELECT Posts.*, Users.firstName FROM Posts, Users WHERE Post.idUser=Users.idUser ORDER BY idPost DESC ";
         connection.query(sql, (error, results) =>{
             if(error) throw error;
             if(results.length >0){
