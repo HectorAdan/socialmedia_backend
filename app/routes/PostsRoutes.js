@@ -199,7 +199,11 @@ module.exports = function(app, connection, dir_name){
             WHERE idPost = ${id}`;
             connection.query(sql, error=>{
                 if(error) throw error;
-                res.send("Post successfully updated!")
+                const response = {
+                    ok: true,
+                    message: "Post successfully updated!"
+                }
+                res.send(response);
             })
         }
     })
@@ -214,10 +218,18 @@ module.exports = function(app, connection, dir_name){
             if(result.length > 0){
                 connection.query(sql_delete, error1=>{
                     if(error1) throw error1;
-                    res.send(`Post with id ${id} successfully deleted`);
+                    const response = {
+                        ok: true,
+                        message: `Post with id ${id} successfully deleted`
+                    }
+                    res.send(response);
                 })
             }else{
-                res.send(`Post with id ${id} not found`);
+                const response = {
+                    ok: false,
+                    message: `Post with id ${id} not found`
+                }
+                res.send(response);
             }
         })
     })
