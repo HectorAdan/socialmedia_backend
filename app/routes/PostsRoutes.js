@@ -145,7 +145,7 @@ module.exports = function(app, connection, dir_name){
                 "idUser": req.body.idUser,
                 "title": req.body.title,
                 "content": req.body.content,
-                "idStatus": 1,
+                "idStatus": req.body.idStatus,
                 "slug": slugify(req.body.title)
             }; 
             
